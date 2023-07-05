@@ -10,18 +10,18 @@ struct node{
         right=NULL;
     }
 };
-void ceil(struct node* root,int key,int val){
+void inorder(struct node* root,vector<int> &v){
     if(root==NULL){
-         cout<<val;
-         return;
+        return;
     }
-    if(key<root->data){
-        val=root->data;
-        ceil(root->left,key,val);
-    }
-    if(key>root->data){
-        ceil(root->right,key,val);
-    }
+    inorder(root->left,v);
+    v.push_back(root->data);
+    inorder(root->right,v);
+}
+int kthsmallest(struct node* root,int k){
+    vector<int> v;
+    inorder(root,v);
+    return v[k-1];
 }
 int main(){
     struct node* root=new node(10);
@@ -36,6 +36,6 @@ int main(){
     root->left->right->right=new node(7);
     root->left->right->right->right=new node(9);
 
-    ceil(root,4,-1);
+    cout<<kthsmallest(root,4);
     return 0;
 }
