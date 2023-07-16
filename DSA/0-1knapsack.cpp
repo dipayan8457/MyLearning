@@ -1,19 +1,19 @@
 #include<bits/stdc++.h>
 using namespace std;
-const int items=4;
-int knapsack(vector<pair<int,int>> v,int constraint,int curr,int profit){
-    if(curr==items || constraint==0){
-        return profit;
+int knapsack(vector<int> &val,vector<int> &wt,int maxweight,int items){
+    if(items==0 || maxweight==0){
+        return 0;
     }
-    if(v[curr].first<=constraint){
-        int a=knapsack(v,constraint,curr+1,profit);
-        int b=knapsack(v,constraint-v[curr].first,curr+1,profit+v[curr].second);
-        return max(a,b);
+    if(wt[items-1]<=maxweight){
+        return max((val[items-1]+knapsack(val,wt,maxweight-wt[items-1],items-1)),knapsack(val,wt,maxweight,items-1));
     }
-    return knapsack(v,constraint,curr+1,profit);
+    else if(wt[items-1]>maxweight){
+    return knapsack(val,wt,maxweight,items-1);
+    }
 }
 int main(){
-    vector<pair<int,int>> v={{1,1},{3,4},{4,5},{5,7}};
-    cout<<knapsack(v,7,0,0);
+    vector<int> val={1,4,5,7};
+    vector<int> wt={1,3,4,7};
+    cout<<knapsack(val,wt,8,val.size());
     return 0;
 }
